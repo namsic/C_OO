@@ -6,7 +6,9 @@ struct ListInterface{
   void*        (*get)    (const struct ListInterface *self, const unsigned int index);
 
   void         (*insert) (struct ListInterface *self, const unsigned int index, void* value);
-  void         (*remove) (struct ListInterface *self, const unsigned int index);
+  void*        (*remove) (struct ListInterface *self, const unsigned int index);
 };
+
+struct ListInterface* newLinkedList();
 
 #endif  // __COLLECTION_LIST_H__
