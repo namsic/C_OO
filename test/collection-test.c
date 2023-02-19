@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "../util.h"
-#include "../collection/list.h"
+#include "test_util.h"
+#include "collection/list.h"
 
 static void listTest(struct ListInterface *list)
 {

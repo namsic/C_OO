@@ -1,3 +1,5 @@
+#include "test_util.h"
+
 #include <stdlib.h>
 #include <assert.h>
 
