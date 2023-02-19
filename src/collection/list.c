@@ -5,7 +5,7 @@
 
 struct Node
 {
-  void* value;
+  void *value;
   struct Node *next;
 };
 
@@ -16,71 +16,79 @@ struct LinkedList
   struct Node *head;
 };
 
+static struct Node* getNthNode(const struct LinkedList *linked_list,
+                               const unsigned int index, struct Node **prev)
+{
+  assert(linked_list && index <= linked_list->size);
+
+  struct Node *curr = linked_list->head;
+  if (prev) *prev = NULL;
+
+  for (int i=0; i<index; i++) {
+    if (prev) *prev = curr;
+    curr = curr->next;
+  }
+
+  return curr;
+}
+
 static unsigned int linkedListSize(const struct ListInterface *self)
 {
-  struct LinkedList *linked_list = (struct LinkedList*)self;
-  assert(linked_list);
-  return linked_list->size;
+  assert(self);
+  struct LinkedList *list = (struct LinkedList*)self;
+
+  return list->size;
 }
 
 static void* linkedListGet(const struct ListInterface *self,
                            const unsigned int index)
 {
-  struct LinkedList *linked_list = (struct LinkedList*)self;
-  assert(linked_list);
-  assert(index <= linked_list->size);
+  assert(self);
+  struct LinkedList *list = (struct LinkedList*)self;
 
-  struct Node *curr = linked_list->head;
-  for (int i=0; i<index; i++) curr = curr->next;
-  return curr->value;
+  struct Node *node = getNthNode(list, index, NULL);
+  assert(node);
+
+  return node->value;
 }
 
-static void linkedListInsert(struct ListInterface *self,
-                             const unsigned int index,
-                             void* value)
+static void linkedListAdd(struct ListInterface *self, const unsigned int index,
+                          void *value)
 {
-  struct LinkedList *linked_list = (struct LinkedList*)self;
-  assert(linked_list);
-  assert(index <= linked_list->size);
+  assert(self);
+  struct LinkedList *list = (struct LinkedList*)self;
 
   struct Node *new_node = malloc(sizeof(struct Node));
   assert(new_node);
   new_node->value = value;
 
-  struct Node *prev = NULL;
-  struct Node *curr = linked_list->head;
-  for (int i=0; i<index; i++) {
-    prev = curr;
-    curr = curr->next;
-  }
+  struct Node *prev;
+  struct Node *node = getNthNode(list, index, &prev);
 
   if (prev) prev->next = new_node;
-  else linked_list->head = new_node;
+  else list->head = new_node;
 
-  new_node->next = curr;
-  linked_list->size += 1;
+  new_node->next = node;
+  list->size += 1;
 }
 
 static void* linkedListRemove(struct ListInterface *self,
-                             const unsigned int index)
+                              const unsigned int index)
 {
-  struct LinkedList *linked_list = (struct LinkedList*)self;
-  assert(linked_list);
-  assert(index < linked_list->size);
+  assert(self);
+  struct LinkedList *list = (struct LinkedList*)self;
 
-  struct Node *prev = NULL;
-  struct Node *curr = linked_list->head;
-  for (int i=0; i<index; i++) {
-    prev = curr;
-    curr = curr->next;
-  }
+  struct Node *prev;
+  struct Node *node = getNthNode(list, index, &prev);
+  assert(node);
 
-  if (prev) prev->next = curr->next;
-  else linked_list->head = curr->next;
+  if (prev) prev->next = node->next;
+  else list->head = node->next;
+  list->size -= 1;
 
-  void *ret = curr->value;
-  free(curr);
-  linked_list->size -= 1;
+  void *ret = node->value;
+  free(node);
+
   return ret;
 }
 
@@ -95,7 +103,7 @@ struct ListInterface* newLinkedList()
     .interface = {
       .size   = linkedListSize,
       .get    = linkedListGet,
-      .insert = linkedListInsert,
+      .add    = linkedListAdd,
       .remove = linkedListRemove
     }
   };

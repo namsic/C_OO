@@ -11,25 +11,25 @@ static void listTest(struct ListInterface *list)
   int *elem;
 
   // insert to empty
-  list->insert(list, 0, Int(10));
+  list->add(list, 0, Int(10));
   assert(list->size(list) == 1);
   elem = list->get(list, 0); assert(*elem == 10);
 
   // insert to head
-  list->insert(list, 0, Int(20));
+  list->add(list, 0, Int(20));
   assert(list->size(list) == 2);
   elem = list->get(list, 0); assert(*elem == 20);
   elem = list->get(list, 1); assert(*elem == 10);
 
   // insert to mid
-  list->insert(list, 1, Int(30));
+  list->add(list, 1, Int(30));
   assert(list->size(list) == 3);
   elem = list->get(list, 0); assert(*elem == 20);
   elem = list->get(list, 1); assert(*elem == 30);
   elem = list->get(list, 2); assert(*elem == 10);
 
   // insert to tail
-  list->insert(list, 3, Int(40));
+  list->add(list, 3, Int(40));
   assert(list->size(list) == 4);
   elem = list->get(list, 0); assert(*elem == 20);
   elem = list->get(list, 1); assert(*elem == 30);
