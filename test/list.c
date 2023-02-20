@@ -1,10 +1,17 @@
 #include <assert.h>
 #include <stdlib.h>
 
-#include "test_util.h"
 #include "collection/list.h"
 
-static void listTest(struct ListInterface *list)
+int* Int(int v)
+{
+  int *ret = malloc(sizeof(int));
+  assert(ret);
+  *ret = v;
+  return ret;
+}
+
+static void interfaceTest(struct ListInterface *list)
 {
   assert(list->size(list) == 0);
 
@@ -60,9 +67,7 @@ static void listTest(struct ListInterface *list)
 
 int main()
 {
-  struct ListInterface *list = newLinkedList();
-  listTest(list);
-  free(list);
+  interfaceTest(newLinkedList());
 
   return 0;
 }

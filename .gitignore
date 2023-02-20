@@ -1,7 +1,10 @@
+*.a
 *.o
 *.out
+*.log
 
 CMakeCache.txt
-cmake_install.cmake
+CTestCostData.txt
+*.cmake
 CMakeFiles/
 Makefile
