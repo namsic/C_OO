@@ -10,4 +10,6 @@ struct MapInterface
   void* (*remove) (struct MapInterface *self, const unsigned int index);
 };
 
-#endif  // __COLLECTION_LIST_H__
+struct MapInterface* newHashMap();
+
+#endif  // __COLLECTION_MAP_H__

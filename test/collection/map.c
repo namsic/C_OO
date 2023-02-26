@@ -15,8 +15,8 @@ int main()
   bool result = true;
   pushTestGroup("Map");
 
-  pushTestGroup("Dummy");
-  result &= interfaceTest(NULL);
+  pushTestGroup("HashMap");
+  result &= interfaceTest(newHashMap());
   popTestGroup();
 
   return !result;
