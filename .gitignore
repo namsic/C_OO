@@ -3,8 +3,4 @@
 *.out
 *.log
 
-CMakeCache.txt
-CTestCostData.txt
-*.cmake
-CMakeFiles/
-Makefile
+/build/
